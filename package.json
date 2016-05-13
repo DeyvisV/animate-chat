@@ -1,0 +1,19 @@
+{
+  "name": "animate-chat",
+  "version": "1.0.0",
+  "description": "A realtime chat with video and gifs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DeyvisV/animate-chat.git"
+  },
+  "author": "Deyvis Valdez <deyvis.vh@gmail.com>",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/DeyvisV/animate-chat/issues"
+  },
+  "homepage": "https://github.com/DeyvisV/animate-chat"
+}
