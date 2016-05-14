@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/DeyvisV/animate-chat",
   "dependencies": {
+    "async": "^2.0.0-rc.4",
     "body": "^5.1.0",
     "course": "0.0.1",
     "st": "^1.1.0",
