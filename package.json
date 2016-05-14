@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/DeyvisV/animate-chat/issues"
   },
-  "homepage": "https://github.com/DeyvisV/animate-chat"
+  "homepage": "https://github.com/DeyvisV/animate-chat",
+  "dependencies": {
+    "st": "^1.1.0"
+  }
 }
