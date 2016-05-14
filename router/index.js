@@ -8,10 +8,10 @@ const mount = st({
 
 function onRequest(req, res){
     mount(req, res, function(err){
-        if (err) return res.end(err.message);
+        if (err) return res.end(err.message)
 
-        res.statusCode = 404;
-        res.end(`Not found ${req.url}`);
+        res.statusCode = 404
+        res.end(`404 Not Found: ${req.url}`)
     })
 }
 
