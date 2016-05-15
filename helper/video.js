@@ -16,6 +16,7 @@ module.exports = function(images){
     let count = 0;
     let baseName = uuid.v4();
     let tmpDir = os.tmpDir();
+    let video;
 
     async.series([
         decodeImages,
