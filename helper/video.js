@@ -7,6 +7,7 @@ const uuid = require('uuid')
 const async = require('async')
 const dataURIBuffer = require('data-uri-to-buffer');
 const EventEmitter = require('events').EventEmitter;
+const listFiles = require('./list');
 
 module.exports = function(images){
     let events = new EventEmitter();
@@ -43,7 +44,14 @@ module.exports = function(images){
     }
 
     function cleanup(done){
-        done();
+        events.emit('log', 'Cleaning Up');
+
+        listFiles(tmpDir, baseName, function(err, files){
+            if (err) return done(err);
+
+            //delte files
+            done();
+        });
     }
 
     function convertFinished(err){
