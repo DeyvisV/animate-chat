@@ -7,6 +7,7 @@ const uuid = require('uuid')
 const async = require('async')
 const dataURIBuffer = require('data-uri-to-buffer');
 const EventEmitter = require('events').EventEmitter;
+const concat = require('concat-stream');
 const listFiles = require('./list');
 const ffmpeg = require('./ffmpeg');
 
@@ -19,8 +20,8 @@ module.exports = function(images){
     async.series([
         decodeImages,
         createVideo,
-        encodeVideo/*,
-        cleanup*/
+        encodeVideo,
+        cleanup
     ], convertFinished);
 
     function decodeImages(done){
@@ -43,8 +44,16 @@ module.exports = function(images){
     }
 
     function encodeVideo(done){
-        done();
-    }
+        let fileName = `${baseName}.webm`;
+        let rs = fs.createReadStream(path.join(tmpDir, fileName));
+
+        rs.pipe(concat(function(videoBuffer){
+            video = `data:video/webm;base64,${videoBuffer.toString('base64')}`;
+            done();
+        }));
+        
+        rs.on('error', done);
+    }   
 
     function cleanup(done){
         events.emit('log', 'Cleaning Up');
@@ -71,9 +80,9 @@ module.exports = function(images){
     }
 
     function convertFinished(err){
-        setTimeout(function(){
-            events.emit('video', 'this will be the encoded video');
-        });
+        if (err) return events.emit('error', err);
+
+        events.emit('video', video);
     }
 
     return events;
