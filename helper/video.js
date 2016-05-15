@@ -8,6 +8,7 @@ const async = require('async')
 const dataURIBuffer = require('data-uri-to-buffer');
 const EventEmitter = require('events').EventEmitter;
 const listFiles = require('./list');
+const ffmpeg = require('./ffmpeg');
 
 module.exports = function(images){
     let events = new EventEmitter();
@@ -18,8 +19,8 @@ module.exports = function(images){
     async.series([
         decodeImages,
         createVideo,
-        encodeVideo,
-        cleanup
+        encodeVideo/*,
+        cleanup*/
     ], convertFinished);
 
     function decodeImages(done){
@@ -31,12 +32,14 @@ module.exports = function(images){
         let buffer = dataURIBuffer(image);
         let ws = fs.createWriteStream(path.join(tmpDir, fileName));
 
-        ws.on('error', done)
-          .end(buffer, done)
+        ws.on('error', done).end(buffer, done)
     }
 
     function createVideo(done){
-        done();
+        ffmpeg({
+            baseName: baseName,
+            folder: tmpDir,
+        }, done);
     }
 
     function encodeVideo(done){
@@ -49,7 +52,20 @@ module.exports = function(images){
         listFiles(tmpDir, baseName, function(err, files){
             if (err) return done(err);
 
-            //delte files
+            deleteFiles(files, done);
+        });
+    }
+
+    function deleteFiles(files, done){
+        async.each(files, deleteFile, done);
+    }
+
+    function deleteFile(file, done){
+        events.emit('log', `Deleting ${file}`);
+
+        fs.unlink(path.join(tmpDir, file), function(err){
+            //ignore error
+            //
             done();
         });
     }
