@@ -1,8 +1,9 @@
 'use strict'
 
 const level = require('level');
-const ttl = require('ttl');
+const ttl = require('level-ttl');
 const uuid = require('uuid');
+const concat = require('concat-stream')
 
 module.exports = function(options){
     options = options || {};
@@ -29,7 +30,7 @@ module.exports = function(options){
             gt: 'message'
         });
 
-        rs.pipe(concat(function(message){
+        rs.pipe(concat(function(messages){
             callback(null, messages.reverse());
         }));
 
