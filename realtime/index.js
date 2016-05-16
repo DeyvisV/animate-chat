@@ -13,6 +13,12 @@ module.exports = function(server){
     function onConnection(socket) {
         console.log(`Client connected ${socket.id}`)
 
+        db.list(function(err, messages){
+            if (err) return console.error(err);
+
+            socket.emit('messages', messages);
+        });
+
         socket.on('message', function(message){
             const converter = helper.convertVideo(message.frames);
 
