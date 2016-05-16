@@ -1,2 +1,7 @@
 node_modules
+database
+!database/index.js
+public/js/app.js
 *.log
+*.db
+
