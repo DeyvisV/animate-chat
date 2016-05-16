@@ -1,7 +1,7 @@
 'use strict'
 
 const socketio = require('socket.io');
-const database = require('./database');
+const database = require('../database');
 const helper = require('../helper');
 
 module.exports = function(server){
