@@ -27,6 +27,7 @@
     "domify": "^1.4.0",
     "handlebars": "^4.0.5",
     "level": "^1.4.0",
+    "level-ttl": "^3.1.0",
     "socket.io": "^1.4.6",
     "socket.io-client": "^1.4.6",
     "st": "^1.1.0",

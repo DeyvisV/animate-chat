@@ -1,17 +1,20 @@
 'use strict'
 
 const level = require('level');
+const ttl = require('ttl');
 const uuid = require('uuid');
 
 module.exports = function(options){
     options = options || {};
+    let duration = options.duration || 10 * 60 * 1000;
 
-    const db = level('./database');
+    const db = ttl(level('./database'), { checkFrequency: 10000 });
 
     function save(message, callback){
         let key = `message-${Date.now()}-${uuid.v4()}`;
         let options = {
-            valueEncoding: 'json'
+            valueEncoding: 'json',
+            ttl: duration
         }
 
         db.put(key, message, options, callback);
